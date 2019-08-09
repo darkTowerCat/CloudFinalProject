@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Recipe Collection</h2>
+
+    <h3>Add your recipe! <a href="{{ url_for('addRecipe') }}">here</a></h3>
+    <h3>Entries</h3>
+    {% for entry in entries %}
+        <p class=entry>
+            {{ entry.title }} provided by &lt;{{ entry.author }}&gt;<br>
+	    Endered on: {{ entry.signed_on }}<br>
+	    Estmated Prep Time: {{ entry.prep_time }}<br>
+	    Made With:<br>
+	    {{ entry.ingredients }}
+        </p>
+    {% endfor %}
+
+{% endblock %}
