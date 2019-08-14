@@ -1,6 +1,7 @@
 #API keys/credentials
 doc-api.txt
 credentials.json
+token.pickle
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -106,3 +107,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# VIM
+.*.swp
+
+# SQLite
+entries.db
