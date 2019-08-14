@@ -1,3 +1,7 @@
+#API keys/credentials
+doc-api.txt
+credentials.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
