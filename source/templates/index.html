@@ -1,3 +1,10 @@
+	<script>
+		function play(arguments) {
+			var output = synthesize_text(arguments )
+			playSound(output)
+		}
+	</script>
+
 {% extends "layout.html" %}
 {% block content %}
     <h2>Recipe Collection</h2>
@@ -13,9 +20,11 @@
 	    {{ entry.ingredients }}<br>
 	    <br>
 	    <br>
-	    Hear list it is made from: <button type="button" onclick="playSound("synthesize_text( {{ entry.ingredients }} )")">Hear List</button>
-    synthesize_text
+	    Hear list it is made from: <button type="button" onclick="play({{entry.ingredients }})">Hear List</button>
         </p>
     {% endfor %}
 
 {% endblock %}
+
+
+
