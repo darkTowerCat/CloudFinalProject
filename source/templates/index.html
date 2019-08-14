@@ -13,7 +13,8 @@
 	    {{ entry.ingredients }}<br>
 	    <br>
 	    <br>
-	    Hear list it is made from: <button type="button" onclick="alert('pressed')">Hear List</button>
+	    Hear list it is made from: <button type="button" onclick="playSound("synthesize_text( {{ entry.ingredients }} )")">Hear List</button>
+    synthesize_text
         </p>
     {% endfor %}
 

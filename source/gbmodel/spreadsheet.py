@@ -45,34 +45,18 @@ class model(Model):
             cursor.execute("create table recipebook (title text, author text, signed_on date, prep_time text, ingredients text)")
         cursor.close()
 
+
     def select(self):
         """
-        Gets all rows from the database
+        Gets all rows from the google spreadsheet
         Each row contains: title, author, preperation time, date, ingredients
-        :return: List of lists containing all rows of database
+        :return: List of dictonary containing all rows of database
         """
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM recipebook")
         # return cursor.fetchall()
 
-        '''
-        def insert(self, title, author, prep_time, ingredients):
-        """
-        Inserts entry into database
-        :param title: String
-        :param author: String
-        :param prep_time: String
-        :param ingredients: String
-        :return: True
-        :raises: Database errors on connection and insertion
-        """
-        params = {'title':title, 'author':author, 'date':date.today(), 'prep_time':prep_time, 'ingredients':ingredients}
-        connection = sqlite3.connect(DB_FILE)
-        cursor = connection.cursor()
-        cursor.execute("insert into recipebook (title, author, signed_on, prep_time, ingredients) VALUES (:title, :author, :date, :prep_time, :ingredients)", params)
-        connection.commit()
-        '''
 
         #    def insert(self):
         """Shows basic usage of the Sheets API.
@@ -86,6 +70,7 @@ class model(Model):
             with open('token.pickle', 'rb') as token:
                 creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
+        # This is the autorization from Quick
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
@@ -119,7 +104,7 @@ class model(Model):
                         'date':datetime.date.today(), 
                         'prep_time':prep_time, 
                         'ingredients':ingredients}
-                
+                # These are all strings 
                 connection = sqlite3.connect(DB_FILE)
                 cursor.execute("insert into recipebook (title, author, signed_on, prep_time, ingredients) VALUES (:title, :author, :date, :prep_time, :ingredients)", params)
                 print(title, author, date, prep_time, ingredients)
@@ -128,7 +113,6 @@ class model(Model):
                 response.append({title: title, author: author, date: date, prep_time: prep_time, ingredients: ingredients})
         return response
 
+
     if __name__ == '__main__':
         main()
-    # [END sheets_quickstart]
-
