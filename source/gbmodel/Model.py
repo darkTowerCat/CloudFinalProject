@@ -9,9 +9,9 @@ class Model():
     def insert(self, title, author, prep_time, ingredients):
         """
         Inserts entry into database
-        :param name: String
-        :param email: String
-        :param message: String
+        :param title: String
+        :param author: String
+        :param prep_time: String
         :return: none
         :raises: Database errors on connection and insertion
         """

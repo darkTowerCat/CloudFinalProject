@@ -1,13 +1,13 @@
 #model_backend = 'pylist'
 #model_backend = 'sqlite3'
-model_backend = 'final'
+model_backend = 'google_docs'
 
 if model_backend == 'sqlite3':
     from .model_sqlite3 import model
 elif model_backend == 'pylist':
     from .model_pylist import model
-elif model_backend == 'final':
-    from .spreadsheet import model
+elif model_backend == 'google_docs':
+    from .model_spreadsheet import model
 else:
     raise ValueError("No appropriate databackend configured. ")
 
