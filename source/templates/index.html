@@ -20,7 +20,13 @@
 	    {{ entry.ingredients }}<br>
 	    <br>
 	    <br>
-	    Hear list it is made from: <button type="button" onclick="play({{entry.ingredients }})">Hear List</button>
+	    <figure>
+    <audio
+        controls
+        src="{{entry.mp3_path}}">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
         </p>
     {% endfor %}
 

@@ -1,33 +1,45 @@
 from flask import render_template
 from flask.views import MethodView
 import gbmodel
+import json
+import hashlib
+from google.cloud import texttospeech
 
 class Index(MethodView):
     def get(self):
         model = gbmodel.get_model()
-        entries = [dict(title=t, author=a, date=d, prep_time=p, ingredients=i) for t, a, d, p, i in model.select()]
-        return render_template('index.html',entries=entries)
+        entries = []
+        for t, a, d, p, i in model.select():
+            entry = dict(title=t, author=a, date=d, prep_time=p, ingredients=i,
+                mp3_path = synthesize_text(i)
+                )
+            entries.append(entry) 
+        return render_template('index.html', entries=entries)
 
 
-    def synthesize_text(text):
-        """Synthesizes speech from the input string of text."""
-        from google.cloud import texttospeech
-        client = texttospeech.TextToSpeechClient()
+def synthesize_text(text):
+    """Synthesizes speech from the input string of text."""
+    client = texttospeech.TextToSpeechClient()
 
-        input_text = texttospeech.types.SynthesisInput(text=text)
+    input_text = texttospeech.types.SynthesisInput(text=text)
 
-        # Note: the voice can also be specified by name.
-        # Names of voices can be retrieved with client.list_voices().
-        voice = texttospeech.types.VoiceSelectionParams(
-            language_code='en-US',
-            ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
+    # Note: the voice can also be specified by name.
+    # Names of voices can be retrieved with client.list_voices().
+    voice = texttospeech.types.VoiceSelectionParams(
+        language_code='en-US',
+        ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
 
-        audio_config = texttospeech.types.AudioConfig(
-            audio_encoding=texttospeech.enums.AudioEncoding.MP3)
+    audio_config = texttospeech.types.AudioConfig(
+        audio_encoding=texttospeech.enums.AudioEncoding.MP3)
 
-        response = client.synthesize_speech(input_text, voice, audio_config)
+    response = client.synthesize_speech(input_text, voice, audio_config)
 
-        # The response's audio_content is binary.
-        with open('output.mp3', 'wb') as out:
-            out.write(response.audio_content)
-            print('Audio content written to file "output.mp3"')
+    # The response's audio_content is binary.
+    name = hashlib.sha256()
+    name.update(text.encode())
+    name = name.hexdigest()
+    mp3_path = f"./static/{name}.mp3"
+    with open(mp3_path, 'wb') as out:
+        out.write(response.audio_content)
+        print('Audio content written to file "output.mp3"')
+    return mp3_path
